@@ -11,11 +11,15 @@ const contractInterface = new ethers.Interface(JSON.stringify(ABI_FRAGMENT));
 exports.handler = async function(event, context, callback) {
     console.log(event.body);
 
-    return {
-        statusCode: 200,
-        headers: CORS_HEADERS,
-        body: JSON.stringify({ message: 'Cast published successfully' }),
-    };
+    const resp = JSON.parse(event.body);
+
+    if (resp.abi.size === 0 && resp.logs.size === 0) {
+        return {
+            statusCode: 200,
+            headers: CORS_HEADERS,
+            body: JSON.stringify({ message: 'Cast published successfully' }),
+        };
+    }
 
     if (event.httpMethod !== 'POST') {
         return {
@@ -25,7 +29,6 @@ exports.handler = async function(event, context, callback) {
         };
     }
 
-    const resp = JSON.parse(event.body);
     const log = resp.logs[0];
 
     // Decoding the log data
