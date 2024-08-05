@@ -9,11 +9,7 @@ const client = new NeynarAPIClient(process.env.NEYNAR_API_KEY);
 const contractInterface = new ethers.Interface(JSON.stringify(ABI_FRAGMENT));
 
 exports.handler = async function(event, context, callback) {
-    return {
-        statusCode: 200,
-        headers: CORS_HEADERS,
-        body: JSON.stringify({ message: 'Cast published successfully' }),
-    };
+    console.log(event.data);
 
     if (event.httpMethod !== 'POST') {
         return {
