@@ -1,0 +1,10 @@
+[[redirects]]
+  from = "/notifier"
+  to = "/.netlify/functions/notifier"
+  status = 200
+
+[build]
+  functions = "functions"
+
+[build.environment]
+  NODE_VERSION = "20.12.2"
