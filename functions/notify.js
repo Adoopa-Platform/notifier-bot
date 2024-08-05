@@ -9,7 +9,7 @@ const client = new NeynarAPIClient(process.env.NEYNAR_API_KEY);
 const contractInterface = new ethers.Interface(JSON.stringify(ABI_FRAGMENT));
 
 exports.handler = async function(event, context, callback) {
-    console.log(event.data);
+    console.log(event.body);
 
     if (event.httpMethod !== 'POST') {
         return {
