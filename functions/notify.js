@@ -13,7 +13,7 @@ exports.handler = async function(event, context, callback) {
 
     const resp = JSON.parse(event.body);
 
-    if (!resp.confirmed || resp.abi.size === 0 && resp.logs.size === 0) {
+    if (resp.confirmed === false || resp.abi.size === 0 && resp.logs.size === 0) {
         return {
             statusCode: 200,
             headers: CORS_HEADERS,
