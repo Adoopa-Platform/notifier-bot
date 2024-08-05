@@ -12,9 +12,8 @@ exports.handler = async function(event, context, callback) {
     console.log(event.body);
 
     const resp = JSON.parse(event.body);
-    console.log(resp.confirmed);
 
-    if (resp.abi.size === 0 && resp.logs.size === 0) {
+    if (resp.abi.size === 0 && resp.logs.size === 0 || !resp.confirmed) {
         return {
             statusCode: 200,
             headers: CORS_HEADERS,
