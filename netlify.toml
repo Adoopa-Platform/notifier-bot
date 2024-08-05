@@ -1,6 +1,6 @@
 [[redirects]]
-  from = "/notifier"
-  to = "/.netlify/functions/notifier"
+  from = "/notify"
+  to = "/.netlify/functions/notify"
   status = 200
 
 [build]
