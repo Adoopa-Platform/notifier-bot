@@ -11,6 +11,9 @@ const contractInterface = new ethers.Interface(JSON.stringify(ABI_FRAGMENT));
 exports.handler = async function(event, context, callback) {
     const resp = JSON.parse(event.body);
     console.log(event.body);
+    console.log(resp.abi.size === 0);
+    console.log(resp.logs.size === 0);
+    console.log(!resp.confirmed);
 
     if ((resp.abi.size === 0 && resp.logs.size === 0) || !resp.confirmed) {
         return {
