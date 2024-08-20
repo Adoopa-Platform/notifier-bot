@@ -50,8 +50,11 @@ exports.handler = async function(event, context, callback) {
         }
 
         const receiverData = await client.lookupUserByCustodyAddress(receiver);
+        const lastCasts = await client.fetchAllCastsCreatedByUser(receiverData.user.fid);
 
-        return await publishCast(receiverData.user.username);
+        return lastCasts.result.casts.length === 0
+            ? await publishCast(receiverData.user.username)
+            : await publishCast(receiverData.user.username, lastCasts.result.casts.at(0).hash);
     } catch (e) {
         return {
             statusCode: 500,
@@ -61,12 +64,12 @@ exports.handler = async function(event, context, callback) {
     }
 };
 
-const publishCast = async (username) => {
+const publishCast = async (username, replyToHash = null) => {
     try {
-        const cast = await client.publishCast(
-            process.env.SIGNER_UUID,
-            `Hey @${username}! You just received an ad offer, check it out here: ${process.env.OFFERS_PAGE_URL}`
-        );
+        const message = `Hey @${username}! You just received an ad offer, check it out here: ${process.env.OFFERS_PAGE_URL}`;
+        const options = replyToHash ? { replyTo: replyToHash } : {};
+
+        const cast = await client.publishCast(process.env.SIGNER_UUID, message, options);
 
         if (cast) {
             console.log(JSON.stringify(cast));
@@ -85,4 +88,4 @@ const publishCast = async (username) => {
             body: JSON.stringify({ message: 'Failed to publish cast' }),
         };
     }
-}
+};
